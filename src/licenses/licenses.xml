@@ -331,7 +331,7 @@
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>
-      <version>1.10</version>
+      <version>1.10.0.redhat-5</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -441,7 +441,7 @@
     <dependency>
       <groupId>io.openshift.booster</groupId>
       <artifactId>springboot-cb-greeting</artifactId>
-      <version>4-SNAPSHOT</version>
+      <version>5-redhat-SNAPSHOT</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -452,7 +452,7 @@
     <dependency>
       <groupId>io.openshift.booster</groupId>
       <artifactId>springboot-cb-name</artifactId>
-      <version>4-SNAPSHOT</version>
+      <version>5-redhat-SNAPSHOT</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -584,7 +584,7 @@
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-core</artifactId>
-      <version>8.0.36</version>
+      <version>8.0.36.redhat-24</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -595,7 +595,7 @@
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-el</artifactId>
-      <version>8.0.36</version>
+      <version>8.0.36.redhat-24</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -606,7 +606,7 @@
     <dependency>
       <groupId>org.apache.tomcat.embed</groupId>
       <artifactId>tomcat-embed-websocket</artifactId>
-      <version>8.0.36</version>
+      <version>8.0.36.redhat-24</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -749,7 +749,7 @@
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-validator</artifactId>
-      <version>5.2.4.Final</version>
+      <version>5.2.4.Final-redhat-1</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -760,7 +760,7 @@
     <dependency>
       <groupId>org.jboss.logging</groupId>
       <artifactId>jboss-logging</artifactId>
-      <version>3.3.0.Final</version>
+      <version>3.3.0.Final-redhat-1</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
