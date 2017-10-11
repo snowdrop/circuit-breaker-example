@@ -32,8 +32,8 @@
     <description>Spring Boot - Circuit Breaker</description>
 
     <properties>
-        <springboot.version>1.4.1.RELEASE</springboot.version>
-        <spring-boot.bom.version>2.0.0.redhat-77</spring-boot.bom.version>
+        <springboot.version>1.5.7.RELEASE</springboot.version>
+        <spring-boot.bom.version>1.5.7.redhat-13</spring-boot.bom.version>
         <junit.version>4.12</junit.version>
         <org.glassfish.javax.json>1.0.3</org.glassfish.javax.json>
     </properties>
@@ -59,8 +59,8 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.jboss.snowdrop</groupId>
-                <artifactId>spring-boot-1.4-bom</artifactId>
+                <groupId>me.snowdrop</groupId>
+                <artifactId>spring-boot-bom</artifactId>
                 <version>${spring-boot.bom.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
