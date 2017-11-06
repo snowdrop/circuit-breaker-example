@@ -450,28 +450,6 @@
       </licenses>
     </dependency>
     <dependency>
-      <groupId>io.openshift.booster</groupId>
-      <artifactId>spring-boot-circuit-breaker-greeting</artifactId>
-      <version>4-redhat-SNAPSHOT</version>
-      <licenses>
-        <license>
-          <name>Apache Software License, Version 2.0</name>
-          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-      </licenses>
-    </dependency>
-    <dependency>
-      <groupId>io.openshift.booster</groupId>
-      <artifactId>spring-boot-circuit-breaker-name</artifactId>
-      <version>4-redhat-SNAPSHOT</version>
-      <licenses>
-        <license>
-          <name>Apache Software License, Version 2.0</name>
-          <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-        </license>
-      </licenses>
-    </dependency>
-    <dependency>
       <groupId>io.reactivex</groupId>
       <artifactId>rxjava</artifactId>
       <version>1.2.0</version>
@@ -562,7 +540,7 @@
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-lang3</artifactId>
-      <version>3.3.2</version>
+      <version>3.1</version>
       <licenses>
         <license>
           <name>Apache Software License, Version 2.0</name>
@@ -870,7 +848,7 @@
     <dependency>
       <groupId>org.ow2.asm</groupId>
       <artifactId>asm</artifactId>
-      <version>5.0.4</version>
+      <version>5.0.3</version>
       <licenses>
         <license>
           <name>BSD 3-clause "New" or "Revised" License</name>
