@@ -21,11 +21,11 @@
   <parent>
     <groupId>io.openshift.booster</groupId>
     <artifactId>spring-boot-booster-parent</artifactId>
-    <version>1.5.10-6</version>
+    <version>1.5.10-1-rhoar</version>
   </parent>
 
   <artifactId>spring-boot-circuit-breaker-parent</artifactId>
-  <version>11-SNAPSHOT</version>
+  <version>1.5.10-1-redhat-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>Spring Boot - Circuit Breaker Booster</name>
