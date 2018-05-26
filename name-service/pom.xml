@@ -15,7 +15,7 @@
   <parent>
     <groupId>io.openshift.booster</groupId>
     <artifactId>spring-boot-circuit-breaker-parent</artifactId>
-    <version>1.5.12-3-redhat-SNAPSHOT</version>
+    <version>1.5.13-1-redhat-SNAPSHOT</version>
   </parent>
 
   <artifactId>spring-boot-circuit-breaker-name</artifactId>
