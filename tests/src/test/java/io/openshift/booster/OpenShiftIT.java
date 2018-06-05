@@ -37,11 +37,11 @@ public class OpenShiftIT {
     private static final long REQUEST_THRESHOLD = 3;
 
     @AwaitRoute(path = "/health")
-    @RouteURL("spring-boot-circuit-breaker-name")
+    @RouteURL("${app.name}")
     private URL nameBaseUri;
 
     @AwaitRoute(path = "/health")
-    @RouteURL("spring-boot-circuit-breaker-greeting")
+    @RouteURL("${app.greeting}")
     private URL greetingBaseUri;
 
     @Before
