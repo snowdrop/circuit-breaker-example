@@ -19,7 +19,6 @@
       <artifactId>arquillian-junit-standalone</artifactId>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>org.arquillian.cube</groupId>
       <artifactId>arquillian-cube-openshift</artifactId>
@@ -31,25 +30,31 @@
         </exclusion>
       </exclusions>
     </dependency>
-
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-
+    <dependency>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>io.rest-assured</groupId>
+      <artifactId>rest-assured</artifactId>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.glassfish</groupId>
       <artifactId>javax.json</artifactId>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>io.openshift.booster</groupId>
       <artifactId>spring-boot-circuit-breaker-name</artifactId>
       <version>${project.version}</version>
     </dependency>
-
     <dependency>
       <groupId>io.openshift.booster</groupId>
       <artifactId>spring-boot-circuit-breaker-greeting</artifactId>
