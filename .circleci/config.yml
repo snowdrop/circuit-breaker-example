@@ -34,9 +34,10 @@ jobs:
 
       # based on this: https://discuss.circleci.com/t/circle-2-0-caching-is-too-limited-to-be-very-useful/11694/10
       - restore_cache:
-          key: spring-boot-cb-booster-{{ .Branch }}-{{ checksum "pom.xml" }}
-          key: spring-boot-cb-booster-{{ .Branch }}
-          key: spring-boot-cb-booster
+          keys:
+            - spring-boot-cb-booster-{{ .Branch }}-{{ checksum "pom.xml" }}
+            - spring-boot-cb-booster-{{ .Branch }}
+            - spring-boot-cb-booster
 
       # Will download all deps needed into .m2
       # Need to exclude tests since Maven will fail. See https://stackoverflow.com/q/14694139/2504224
