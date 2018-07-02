@@ -51,14 +51,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.openshift.booster</groupId>
-      <artifactId>spring-boot-circuit-breaker-name</artifactId>
-      <version>${project.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.openshift.booster</groupId>
-      <artifactId>spring-boot-circuit-breaker-greeting</artifactId>
-      <version>${project.version}</version>
+      <groupId>org.slf4j</groupId>
+      <artifactId>jcl-over-slf4j</artifactId>
+      <version>1.7.25</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -100,38 +96,25 @@
               <skip>false</skip>
               <profile>aggregate</profile>
             </configuration>
-          </plugin>
-
-          <!-- needed to be able to run the tests in an ephemeral namespace -->
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-resources-plugin</artifactId>
-            <executions>
-              <execution>
-                <id>copy-image-streams</id>
-                <phase>pre-integration-test</phase>
-                <goals>
-                  <goal>copy-resources</goal>
-                </goals>
-                <configuration>
-                  <outputDirectory>${project.build.directory}</outputDirectory>
-                  <resources>
-                    <resource>
-                      <directory>${project.parent.basedir}/name-service/target</directory>
-                      <includes>
-                        <include>*-is.yml</include>
-                      </includes>
-                    </resource>
-                    <resource>
-                      <directory>${project.parent.basedir}/greeting-service/target</directory>
-                      <includes>
-                        <include>*-is.yml</include>
-                      </includes>
-                    </resource>
-                  </resources>
-                </configuration>
-              </execution>
-            </executions>
+            <!--
+               We add the dependencies to the two modules that need to be deployed for the tests
+               to run.
+               This is done in order to make FMP pick up the generated Openshift
+               resources file of each module and create an "uber" resources file containing
+               resources for both modules (which is what the aggregate profile above does)
+            -->
+            <dependencies>
+              <dependency>
+                <groupId>io.openshift.booster</groupId>
+                <artifactId>spring-boot-circuit-breaker-name</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+              <dependency>
+                <groupId>io.openshift.booster</groupId>
+                <artifactId>spring-boot-circuit-breaker-greeting</artifactId>
+                <version>${project.version}</version>
+              </dependency>
+            </dependencies>
           </plugin>
         </plugins>
       </build>
