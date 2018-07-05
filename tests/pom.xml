@@ -71,6 +71,14 @@
           <skip>true</skip>
         </configuration>
       </plugin>
+      <!--
+        This setting overrides the "openshift" profile settings in the parent
+        It's needed because the RHOAR docs use
+
+        mvn clean fabric8:deploy -Popenshift
+
+        to deploy the application, so we need to make sure this module doesn't get deployed
+        -->
       <plugin>
         <groupId>io.fabric8</groupId>
         <artifactId>fabric8-maven-plugin</artifactId>
