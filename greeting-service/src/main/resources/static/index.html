@@ -101,9 +101,9 @@
 
         function updateNameServiceState(state) {
             if (state) {
-                $("#name-state").html("<h3>Operational state: <span class=\"label label-info\">OK</span></h3>");
+                $("#name-state").html("<h3>Operational state: <span id=\"svc-state\" class=\"label label-info\">OK</span></h3>");
             } else {
-                $("#name-state").html("<h3>Operational state: <span class=\"label label-warning\">FAIL</span></h3>");
+                $("#name-state").html("<h3>Operational state: <span id=\"svc-state\" class=\"label label-warning\">FAIL</span></h3>");
             }
         }
 
