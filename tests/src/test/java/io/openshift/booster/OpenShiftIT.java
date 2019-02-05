@@ -36,11 +36,11 @@ public class OpenShiftIT {
     // See also circuitBreaker.requestVolumeThreshold
     private static final long REQUEST_THRESHOLD = 3;
 
-    @AwaitRoute(path = "/health")
+    @AwaitRoute(path = "/actuator/health")
     @RouteURL("${app.name}")
     private URL nameBaseUri;
 
-    @AwaitRoute(path = "/health")
+    @AwaitRoute(path = "/actuator/health")
     @RouteURL("${app.greeting}")
     private URL greetingBaseUri;
 
