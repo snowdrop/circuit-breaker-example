@@ -46,15 +46,17 @@ public class OpenShiftIT {
 
     @Before
     public void setup() {
-        await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES).until(() -> {
-            try {
-                Response response = greetingResponse();
-                Response circuitBreakerState = circuitBreakerResponse();
-                return response.asString().contains(HELLO_OK) && circuitBreakerState.asString().contains(CLOSED);
-            } catch (Exception ignored) {
-                return false;
-            }
-        });
+        for (int i=0; i < 3 ; i++) {
+            await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES).until(() -> {
+                try {
+                    Response response = greetingResponse();
+                    Response circuitBreakerState = circuitBreakerResponse();
+                    return response.asString().contains(HELLO_OK) && circuitBreakerState.asString().contains(CLOSED);
+                } catch (Exception ignored) {
+                    return false;
+                }
+            });
+        }
     }
 
     @Test
