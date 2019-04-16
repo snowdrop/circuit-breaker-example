@@ -46,6 +46,7 @@ public class OpenShiftIT {
 
     @Before
     public void setup() {
+        // Circuit breaker is sometimes unstable during init, so wait until it gets stably closed
         for (int i=0; i < 3 ; i++) {
             await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES).until(() -> {
                 try {
