@@ -46,15 +46,18 @@ public class OpenShiftIT {
 
     @Before
     public void setup() {
-        await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES).until(() -> {
-            try {
-                Response response = greetingResponse();
-                Response circuitBreakerState = circuitBreakerResponse();
-                return response.asString().contains(HELLO_OK) && circuitBreakerState.asString().contains(CLOSED);
-            } catch (Exception ignored) {
-                return false;
-            }
-        });
+        // Circuit breaker is sometimes unstable during init, so wait until it gets stably closed
+        for (int i=0; i < 3 ; i++) {
+            await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES).until(() -> {
+                try {
+                    Response response = greetingResponse();
+                    Response circuitBreakerState = circuitBreakerResponse();
+                    return response.asString().contains(HELLO_OK) && circuitBreakerState.asString().contains(CLOSED);
+                } catch (Exception ignored) {
+                    return false;
+                }
+            });
+        }
     }
 
     @Test
@@ -67,10 +70,10 @@ public class OpenShiftIT {
         }
         // Circuit breaker should be open now
         // Wait a little to get the current health counts - see also metrics.healthSnapshot.intervalInMilliseconds
-        await().atMost(5, TimeUnit.SECONDS).until(() -> testCircuitBreakerState(OPEN));
+        await().atMost(10, TimeUnit.SECONDS).until(() -> testCircuitBreakerState(OPEN));
         changeNameServiceState(OK);
         // See also circuitBreaker.sleepWindowInMilliseconds
-        await().atMost(7, TimeUnit.SECONDS).pollDelay(SLEEP_WINDOW, TimeUnit.MILLISECONDS).until(() -> testGreeting(HELLO_OK));
+        await().atMost(15, TimeUnit.SECONDS).pollDelay(SLEEP_WINDOW, TimeUnit.MILLISECONDS).until(() -> testGreeting(HELLO_OK));
         // The health counts should be reset
         assertCircuitBreaker(CLOSED);
     }
