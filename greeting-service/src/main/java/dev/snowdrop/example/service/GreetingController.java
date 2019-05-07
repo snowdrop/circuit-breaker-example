@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.openshift.booster.service;
+package dev.snowdrop.example.service;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
