@@ -1,4 +1,4 @@
-package io.openshift.booster;
+package dev.snowdrop.example;
 
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.containsString;

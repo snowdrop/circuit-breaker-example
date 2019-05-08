@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package io.openshift.booster.service;
+package dev.snowdrop.example.service;
 
 import com.netflix.hystrix.HystrixCircuitBreaker;
 import com.netflix.hystrix.HystrixCommandKey;
