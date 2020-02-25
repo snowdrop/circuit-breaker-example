@@ -2,12 +2,19 @@ apiVersion: v1
 kind: Template
 metadata:
   name: spring-boot-circuit-breaker-name
+  labels:
+    app.kubernetes.io/part-of: circuit-breaker-example
+    app.kubernetes.io/name: name-service
+    app.kubernetes.io/component: backend
+    app.kubernetes.io/runtime: spring-boot
+    app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
   annotations:
     iconClass: icon-spring
     tags: spring-boot, circuit breaker, java, microservice
     openshift.io/display-name: Spring Boot - Name Service managed by the Circuit Breaker
     openshift.io/provider-display-name: "Red Hat, Inc."
     openshift.io/documentation-url: "https://appdev.prod-preview.openshift.io/docs/spring-boot-runtime.html#mission-circuit-breaker-spring-boot-tomcat"
+    app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
     description: >-
       The Circuit Breaker Mission demonstrates a generic pattern for reporting the failure of a service and then limiting access to the failed service until it becomes available to handle requests.
       This helps prevent cascading failure in other services that depend on the failed services for functionality.
@@ -51,6 +58,14 @@ objects:
   kind: ImageStream
   metadata:
     name: spring-boot-circuit-breaker-name
+    labels:
+      app.kubernetes.io/part-of: circuit-breaker-example
+      app.kubernetes.io/name: name-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/runtime: spring-boot
+      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+    annotations:
+      app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
   spec: {}
 - apiVersion: v1
   kind: ImageStream
@@ -66,6 +81,14 @@ objects:
   kind: BuildConfig
   metadata:
     name: spring-boot-circuit-breaker-name
+    labels:
+      app.kubernetes.io/part-of: circuit-breaker-example
+      app.kubernetes.io/name: name-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/runtime: spring-boot
+      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+    annotations:
+      app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
   spec:
     output:
       to:
@@ -111,6 +134,13 @@ objects:
       provider: snowdrop
       version: "BOOSTER_VERSION"
       group: dev.snowdrop.example
+      app.kubernetes.io/part-of: circuit-breaker-example
+      app.kubernetes.io/name: name-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/runtime: spring-boot
+      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+    annotations:
+      app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
     name: spring-boot-circuit-breaker-name
   spec:
     ports:
@@ -130,6 +160,13 @@ objects:
       provider: snowdrop
       version: "BOOSTER_VERSION"
       group: dev.snowdrop.example
+      app.kubernetes.io/part-of: circuit-breaker-example
+      app.kubernetes.io/name: name-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/runtime: spring-boot
+      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+    annotations:
+      app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
     name: spring-boot-circuit-breaker-name
   spec:
     replicas: 1
@@ -149,6 +186,13 @@ objects:
           provider: snowdrop
           version: "BOOSTER_VERSION"
           group: dev.snowdrop.example
+          app.kubernetes.io/part-of: circuit-breaker-example
+          app.kubernetes.io/name: name-service
+          app.kubernetes.io/component: backend
+          app.kubernetes.io/runtime: spring-boot
+          app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+        annotations:
+          app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       spec:
         containers:
         - env:
@@ -201,6 +245,13 @@ objects:
       provider: snowdrop
       version: "BOOSTER_VERSION"
       group: dev.snowdrop.example
+      app.kubernetes.io/part-of: circuit-breaker-example
+      app.kubernetes.io/name: name-service
+      app.kubernetes.io/component: backend
+      app.kubernetes.io/runtime: spring-boot
+      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+    annotations:
+      app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
     name: spring-boot-circuit-breaker-name
   spec:
     port:
