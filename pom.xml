@@ -17,30 +17,29 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>dev.snowdrop</groupId>
+    <artifactId>snowdrop-dependencies</artifactId>
+    <version>2.2.6-SNAPSHOT</version>
+  </parent>
   <groupId>dev.snowdrop.example</groupId>
   <artifactId>circuit-breaker</artifactId>
-  <version>2.1.13-4-SNAPSHOT</version>
+  <version>2.2.6-1-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Spring Boot - Circuit Breaker Example</name>
   <description>Spring Boot - Circuit Breaker Example</description>
   <properties>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <maven-failsafe-plugin.version>2.22.1</maven-failsafe-plugin.version>
     <arquillian.version>1.4.0.Final</arquillian.version>
     <arquillian-cube.version>1.15.3</arquillian-cube.version>
-    <awaitility.version>3.1.0</awaitility.version>
     <commons-logging.version>1.2</commons-logging.version>
-    <javax.json.version>1.0.3</javax.json.version>
-    <junit.version>4.12</junit.version>
+    <javax.json.version>1.1.4</javax.json.version>
     <openjdk18-openshift.version>latest</openjdk18-openshift.version>
-    <rest-assured.version>3.1.0</rest-assured.version>
-    <spring-boot-bom.version>2.1.13.Beta1</spring-boot-bom.version>
-    <spring-boot.version>2.1.13.RELEASE</spring-boot.version>
+    <spring-cloud-netflix.version>2.2.2.RELEASE</spring-cloud-netflix.version>
     <fabric8.generator.from>
       registry.access.redhat.com/redhat-openjdk-18/openjdk18-openshift:${openjdk18-openshift.version}
     </fabric8.generator.from>
-    <fabric8-maven-plugin.version>4.1.0</fabric8-maven-plugin.version>
     <fabric8.openshift.trimImageInContainerSpec>true</fabric8.openshift.trimImageInContainerSpec>
     <fabric8.skip.build.pom>true</fabric8.skip.build.pom>
   </properties>
@@ -54,13 +53,6 @@
   </licenses>
   <dependencyManagement>
     <dependencies>
-      <dependency>
-        <groupId>me.snowdrop</groupId>
-        <artifactId>spring-boot-bom</artifactId>
-        <version>${spring-boot-bom.version}</version>
-        <type>pom</type>
-        <scope>import</scope>
-      </dependency>
       <dependency>
         <groupId>org.jboss.arquillian</groupId>
         <artifactId>arquillian-bom</artifactId>
@@ -76,28 +68,14 @@
         <type>pom</type>
       </dependency>
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
+        <groupId>org.springframework.cloud</groupId>
+        <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
+        <version>${spring-cloud-netflix.version}</version>
       </dependency>
       <dependency>
         <groupId>org.glassfish</groupId>
         <artifactId>javax.json</artifactId>
         <version>${javax.json.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>io.rest-assured</groupId>
-        <artifactId>rest-assured</artifactId>
-        <version>${rest-assured.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.awaitility</groupId>
-        <artifactId>awaitility</artifactId>
-        <version>${awaitility.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.assertj</groupId>
-        <artifactId>assertj-core</artifactId>
       </dependency>
       <dependency>
         <groupId>commons-logging</groupId>
@@ -124,64 +102,7 @@
         <filtering>true</filtering>
       </testResource>
     </testResources>
-    <pluginManagement>
-      <plugins>
-        <plugin>
-          <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-failsafe-plugin</artifactId>
-          <version>${maven-failsafe-plugin.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>org.springframework.boot</groupId>
-          <artifactId>spring-boot-maven-plugin</artifactId>
-          <version>${spring-boot.version}</version>
-        </plugin>
-        <plugin>
-          <groupId>io.fabric8</groupId>
-          <artifactId>fabric8-maven-plugin</artifactId>
-          <version>${fabric8-maven-plugin.version}</version>
-        </plugin>
-      </plugins>
-    </pluginManagement>
-    <plugins>
-      <plugin>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-maven-plugin</artifactId>
-        <configuration/>
-        <executions>
-          <execution>
-            <goals>
-              <goal>repackage</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
-    </plugins>
   </build>
-  <repositories>
-    <repository>
-      <id>redhat-early-access</id>
-      <name>Red Hat Early Access Repository</name>
-      <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
-    </repository>
-    <repository>
-      <id>redhat-ga</id>
-      <name>Red Hat GA Repository</name>
-      <url>https://maven.repository.redhat.com/ga/</url>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>redhat-early-access</id>
-      <name>Red Hat Early Access Repository</name>
-      <url>https://maven.repository.redhat.com/earlyaccess/all/</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>redhat-ga</id>
-      <name>Red Hat GA Repository</name>
-      <url>https://maven.repository.redhat.com/ga/</url>
-    </pluginRepository>
-  </pluginRepositories>
   <profiles>
     <profile>
       <id>openshift</id>
