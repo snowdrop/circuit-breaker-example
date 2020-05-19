@@ -6,8 +6,8 @@ metadata:
     app.kubernetes.io/part-of: circuit-breaker-example
     app.kubernetes.io/name: greeting-service
     app.kubernetes.io/component: frontend
-    app.kubernetes.io/runtime: spring-boot
-    app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+    app.openshift.io/runtime: rh-spring-boot
+    app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
   annotations:
     iconClass: icon-spring
     tags: spring-boot, circuit breaker, java, microservice
@@ -63,8 +63,8 @@ objects:
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
-      app.kubernetes.io/runtime: spring-boot
-      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime: rh-spring-boot
+      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -87,8 +87,8 @@ objects:
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
-      app.kubernetes.io/runtime: spring-boot
-      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime: rh-spring-boot
+      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -140,8 +140,8 @@ objects:
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
-      app.kubernetes.io/runtime: spring-boot
-      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime: rh-spring-boot
+      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -167,8 +167,8 @@ objects:
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
-      app.kubernetes.io/runtime: spring-boot
-      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime: rh-spring-boot
+      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -194,8 +194,8 @@ objects:
           app.kubernetes.io/part-of: circuit-breaker-example
           app.kubernetes.io/name: greeting-service
           app.kubernetes.io/component: frontend
-          app.kubernetes.io/runtime: spring-boot
-          app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+          app.openshift.io/runtime: rh-spring-boot
+          app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
         annotations:
           app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
           app.kubernetes.io/connects-to: name-service
@@ -254,8 +254,8 @@ objects:
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
-      app.kubernetes.io/runtime: spring-boot
-      app.kubernetes.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime: rh-spring-boot
+      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
