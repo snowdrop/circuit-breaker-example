@@ -32,7 +32,7 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <arquillian.version>1.4.0.Final</arquillian.version>
-    <arquillian-cube.version>1.15.3</arquillian-cube.version>
+    <arquillian-cube.version>1.18.2</arquillian-cube.version>
     <commons-logging.version>1.2</commons-logging.version>
     <javax.json.version>1.1.4</javax.json.version>
     <openjdk18-openshift.version>latest</openjdk18-openshift.version>
