@@ -20,11 +20,11 @@
   <parent>
     <groupId>dev.snowdrop</groupId>
     <artifactId>snowdrop-dependencies</artifactId>
-    <version>2.3.10.Final</version>
+    <version>2.3.10.Final-redhat-00001</version>
   </parent>
   <groupId>dev.snowdrop.example</groupId>
   <artifactId>circuit-breaker</artifactId>
-  <version>2.3.10-3-SNAPSHOT</version>
+  <version>2.3.10-3-redhat</version>
   <packaging>pom</packaging>
   <name>Spring Boot - Circuit Breaker Example</name>
   <description>Spring Boot - Circuit Breaker Example</description>
