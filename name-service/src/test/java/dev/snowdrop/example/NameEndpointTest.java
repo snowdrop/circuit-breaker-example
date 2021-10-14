@@ -18,16 +18,14 @@ package dev.snowdrop.example;
 import static org.hamcrest.core.IsEqual.equalTo;
 
 import io.restassured.RestAssured;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 /**
  */
-@RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class NameEndpointTest {
 
@@ -39,7 +37,7 @@ public class NameEndpointTest {
     @Value("${local.server.port}")
     private int port;
 
-    @Before
+    @BeforeEach
     public void setup() {
         RestAssured.baseURI = String.format("http://localhost:%s/api", port);
     }
