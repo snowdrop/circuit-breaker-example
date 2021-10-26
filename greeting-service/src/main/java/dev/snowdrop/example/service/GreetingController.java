@@ -16,10 +16,15 @@
 
 package dev.snowdrop.example.service;
 
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.WebSocketHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Greeting service controller.
@@ -27,10 +32,12 @@ import org.springframework.web.socket.WebSocketHandler;
 @RestController
 public class GreetingController {
 
+    private final CircuitBreakerFactory circuitBreakerFactory;
     private final NameService nameService;
     private final CircuitBreakerHandler handler = new CircuitBreakerHandler();
 
-    public GreetingController(NameService nameService) {
+    public GreetingController(CircuitBreakerFactory circuitBreakerFactory, NameService nameService) {
+        this.circuitBreakerFactory = circuitBreakerFactory;
         this.nameService = nameService;
     }
 
@@ -49,7 +56,9 @@ public class GreetingController {
      */
     @RequestMapping("/api/greeting")
     public Greeting getGreeting() throws Exception {
-        String result = String.format("Hello, %s!", nameService.getName());
+        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("delay");
+        String name = circuitBreaker.run(nameService::getName, t -> nameService.getFallbackName());
+        String result = String.format("Hello, %s!", name);
         handler.sendMessage(nameService.getState());
         return new Greeting(result);
     }
