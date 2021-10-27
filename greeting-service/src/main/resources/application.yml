@@ -7,14 +7,13 @@ resilience4j.circuitbreaker:
       minimumNumberOfCalls: 5
       permittedNumberOfCallsInHalfOpenState: 3
       automaticTransitionFromOpenToHalfOpenEnabled: true
-      waitDurationInOpenState: 5s
+      waitDurationInOpenState: 1s
       failureRateThreshold: 50
       eventConsumerBufferSize: 10
       recordExceptions:
-        - java.io.IOException
-        - java.net.ConnectException
-        - io.github.resilience4j.ratelimiter.RequestNotPermitted
         - org.springframework.web.client.ResourceAccessException
   instances:
     nameService:
       baseConfig: default
+server.port: 8083
+

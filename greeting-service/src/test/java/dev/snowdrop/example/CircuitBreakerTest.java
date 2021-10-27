@@ -16,7 +16,6 @@
 package dev.snowdrop.example;
 
 import io.restassured.RestAssured;
-import io.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,8 +34,8 @@ public class CircuitBreakerTest {
 
     private static final String APPLICATION_JSON = "application/json";
 
-    private static final String OK = "{\"content\":\"OK\"}";
-    private static final String FAIL = "{\"content\":\"fail\"}";
+    private static final String OK = "{\"state\":\"closed\"}";
+    private static final String FAIL = "{\"state\":\"open\"}";
 
     @Value("${local.server.port}")
     private int port;
@@ -48,7 +47,7 @@ public class CircuitBreakerTest {
 
     @Test
     public void testState() {
-        Response response = RestAssured.when().get("cb-state");
+         RestAssured.when().get("cb-state").then().assertThat().statusCode(200).body(equalTo(OK));
     }
 
 }

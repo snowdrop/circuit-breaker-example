@@ -16,7 +16,9 @@
 
 package dev.snowdrop.example.service;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.circuitbreaker.utils.CircuitBreakerUtil;
 import io.github.resilience4j.ratelimiter.RequestNotPermitted;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,31 +43,16 @@ public class NameService {
     public NameService() {
     }
 
-    @CircuitBreaker(name = "nameService", fallbackMethod = "getFallbackName")
+    @io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker(name = "nameService", fallbackMethod = "getFallbackName")
     public String getName() {
-        return restTemplate.getForObject(nameHost + "/api/greeting", String.class);
-    }
-
-    public String getFallbackName() {
-        return "Fallback";
-    }
-
-    public String getFallbackName(ConnectException ex) {
-        return "Connection exception fallback";
+        return restTemplate.getForObject(nameHost + "/api/name", String.class);
     }
 
     public String getFallbackName(ResourceAccessException ex) {
-        return "ResourceAccess exception fallback";
-    }
-
-    private String getFallbackName(RequestNotPermitted ex) {
-        return "RequestNotPermitted exception fallback";
+        return "Fallback";
     }
 
     CircuitBreakerState getState() throws Exception {
-//        HystrixCircuitBreaker circuitBreaker = HystrixCircuitBreaker.Factory.getInstance(KEY);
-//        return CircuitBreakerUtil.isCallPermitted(circuitBreaker);
-        return circuitBreaker != null ? CircuitBreakerState.OPEN : CircuitBreakerState.CLOSED;
-
+        return CircuitBreakerState.fromCallPermitted(CircuitBreakerUtil.isCallPermitted( CircuitBreakerRegistry.ofDefaults().circuitBreaker("nameService")));
     }
 }

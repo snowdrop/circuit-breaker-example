@@ -33,17 +33,9 @@ import java.util.Map;
 @RestController
 public class GreetingController {
 
-//    private final CircuitBreakerFactory circuitBreakerFactory;
     @Autowired
     private NameService nameService;
     private final CircuitBreakerHandler handler = new CircuitBreakerHandler();
-
-//    CircuitBreakerFactory circuitBreakerFactory,
-//    @Autowired
-//    public GreetingController( NameService nameService) {
-////        this.circuitBreakerFactory = circuitBreakerFactory;
-//        this.nameService = nameService;
-//    }
 
     @RequestMapping("/api/ping")
     public Greeting getPing() throws Exception {

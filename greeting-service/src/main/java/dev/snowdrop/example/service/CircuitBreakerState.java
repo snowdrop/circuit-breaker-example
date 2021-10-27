@@ -33,6 +33,10 @@ public class CircuitBreakerState {
         this.state = state;
     }
 
+    public static CircuitBreakerState fromCallPermitted(boolean calPermitted) {
+        return calPermitted ? CLOSED : OPEN;
+    }
+
     public String getState() {
         return state;
     }

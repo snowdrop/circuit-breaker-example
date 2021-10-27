@@ -33,12 +33,8 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class GreetingTest {
 
-    private static final String APPLICATION_JSON = "application/json";
-
-    private static final String GREETING_OK = "{\"content\":\"Hello, World!\"}";
-    private static final String GREETING_FAIL = "{\"content\":\"Hello, Failover!\"}";
-    private static final String OK = "{\"content\":\"OK\"}";
-    private static final String FAIL = "{\"content\":\"fail\"}";
+    private static final String GREETING_FALLBACK = "{\"content\":\"Hello, Fallback!\"}";
+    private static final String GREETING_OK = "{\"content\":\"OK\"}";
 
     @Value("${local.server.port}")
     private int port;
@@ -50,20 +46,12 @@ public class GreetingTest {
 
     @Test
     public void testGetGreeting() {
-        RestAssured.when().get("greeting").then().assertThat().statusCode(200).body(equalTo(GREETING_OK));
+        RestAssured.when().get("greeting").then().assertThat().statusCode(200).body(equalTo(GREETING_FALLBACK));
     }
 
     @Test
     public void testPing() {
-        RestAssured.when().get("ping").then().assertThat().statusCode(200).body(equalTo(OK));
-    }
-
-//    @Test
-    public void testToggle() {
-        RestAssured.given().header("Content-type", APPLICATION_JSON).body(FAIL).put("state").then().assertThat().statusCode(200).body(equalTo(FAIL));
-        RestAssured.when().get("info").then().assertThat().statusCode(200).body(equalTo(FAIL));
-        RestAssured.given().header("Content-type", APPLICATION_JSON).body(OK).put("state").then().assertThat().statusCode(200).body(equalTo(OK));
-        RestAssured.when().get("info").then().assertThat().statusCode(200).body(equalTo(OK));
+        RestAssured.when().get("ping").then().assertThat().statusCode(200).body(equalTo(GREETING_OK));
     }
 
 }
