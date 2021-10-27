@@ -16,12 +16,17 @@
 
 package dev.snowdrop.example.service;
 
-import com.netflix.hystrix.HystrixCircuitBreaker;
-import com.netflix.hystrix.HystrixCommandKey;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.utils.CircuitBreakerUtil;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreaker;
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.ConnectException;
 
 /**
  * Service invoking name-service via REST and guarded by Hystrix.
@@ -29,21 +34,38 @@ import org.springframework.web.client.RestTemplate;
 @Service
 public class NameService {
 
-    private static final HystrixCommandKey KEY = HystrixCommandKey.Factory.asKey("NameService");
-
     private final String nameHost = System.getProperty("name.host", "http://spring-boot-circuit-breaker-name:8080");
     private final RestTemplate restTemplate = new RestTemplate();
+    private CircuitBreaker circuitBreaker=null;
 
+    public NameService() {
+    }
+
+    @CircuitBreaker(name = "nameService", fallbackMethod = "getFallbackName")
     public String getName() {
-        return restTemplate.getForObject(nameHost + "/api/name", String.class);
+        return restTemplate.getForObject(nameHost + "/api/greeting", String.class);
     }
 
     public String getFallbackName() {
         return "Fallback";
     }
 
+    public String getFallbackName(ConnectException ex) {
+        return "Connection exception fallback";
+    }
+
+    public String getFallbackName(ResourceAccessException ex) {
+        return "ResourceAccess exception fallback";
+    }
+
+    private String getFallbackName(RequestNotPermitted ex) {
+        return "RequestNotPermitted exception fallback";
+    }
+
     CircuitBreakerState getState() throws Exception {
-        HystrixCircuitBreaker circuitBreaker = HystrixCircuitBreaker.Factory.getInstance(KEY);
-        return circuitBreaker != null && circuitBreaker.isOpen() ? CircuitBreakerState.OPEN : CircuitBreakerState.CLOSED;
+//        HystrixCircuitBreaker circuitBreaker = HystrixCircuitBreaker.Factory.getInstance(KEY);
+//        return CircuitBreakerUtil.isCallPermitted(circuitBreaker);
+        return circuitBreaker != null ? CircuitBreakerState.OPEN : CircuitBreakerState.CLOSED;
+
     }
 }

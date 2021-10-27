@@ -16,6 +16,8 @@
 
 package dev.snowdrop.example.service;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,11 +27,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class CircuitBreakerController {
 
+    @Autowired
     private NameService nameService;
-
-    public CircuitBreakerController(NameService nameService) {
-        this.nameService = nameService;
-    }
 
     @RequestMapping("/api/cb-state")
     public CircuitBreakerState getState() throws Exception {

@@ -16,6 +16,7 @@
 
 package dev.snowdrop.example.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.context.annotation.Bean;
@@ -32,14 +33,17 @@ import java.util.Map;
 @RestController
 public class GreetingController {
 
-    private final CircuitBreakerFactory circuitBreakerFactory;
-    private final NameService nameService;
+//    private final CircuitBreakerFactory circuitBreakerFactory;
+    @Autowired
+    private NameService nameService;
     private final CircuitBreakerHandler handler = new CircuitBreakerHandler();
 
-    public GreetingController(CircuitBreakerFactory circuitBreakerFactory, NameService nameService) {
-        this.circuitBreakerFactory = circuitBreakerFactory;
-        this.nameService = nameService;
-    }
+//    CircuitBreakerFactory circuitBreakerFactory,
+//    @Autowired
+//    public GreetingController( NameService nameService) {
+////        this.circuitBreakerFactory = circuitBreakerFactory;
+//        this.nameService = nameService;
+//    }
 
     @RequestMapping("/api/ping")
     public Greeting getPing() throws Exception {
@@ -56,9 +60,7 @@ public class GreetingController {
      */
     @RequestMapping("/api/greeting")
     public Greeting getGreeting() throws Exception {
-        CircuitBreaker circuitBreaker = circuitBreakerFactory.create("delay");
-        String name = circuitBreaker.run(nameService::getName, t -> nameService.getFallbackName());
-        String result = String.format("Hello, %s!", name);
+        String result = String.format("Hello, %s!", nameService.getName());
         handler.sendMessage(nameService.getState());
         return new Greeting(result);
     }

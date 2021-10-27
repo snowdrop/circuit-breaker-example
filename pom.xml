@@ -94,11 +94,11 @@
         <scope>import</scope>
         <type>pom</type>
       </dependency>
-      <dependency>
-        <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        <version>${spring-cloud-netflix.version}</version>
-      </dependency>
+<!--      <dependency>-->
+<!--        <groupId>org.springframework.cloud</groupId>-->
+<!--        <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>-->
+<!--        <version>${spring-cloud-netflix.version}</version>-->
+<!--      </dependency>-->
       <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>

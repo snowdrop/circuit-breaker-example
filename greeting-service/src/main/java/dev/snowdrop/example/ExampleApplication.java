@@ -24,7 +24,6 @@ import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
  * Entry point to the application.
  */
 @SpringBootApplication
-@EnableCircuitBreaker
 public class ExampleApplication {
 
     public static void main(String[] args) {
