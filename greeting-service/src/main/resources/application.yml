@@ -1,3 +1,8 @@
+spring:
+  application:
+    name: greeting
+server:
+  port: 8080
 resilience4j.circuitbreaker:
   configs:
     default:
@@ -12,8 +17,12 @@ resilience4j.circuitbreaker:
       eventConsumerBufferSize: 10
       recordExceptions:
         - org.springframework.web.client.ResourceAccessException
+        - org.springframework.web.client.HttpServerErrorException
+        - org.springframework.web.client.HttpStatusCodeException
+        - org.springframework.web.client.RestClientResponseException
+        - org.springframework.web.client.RestClientException
+        - org.springframework.core.NestedRuntimeException
+        - java.lang.RuntimeException
   instances:
     nameService:
       baseConfig: default
-server.port: 8083
-
