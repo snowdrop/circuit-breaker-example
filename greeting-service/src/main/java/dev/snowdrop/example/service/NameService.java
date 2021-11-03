@@ -17,18 +17,12 @@
 package dev.snowdrop.example.service;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
-import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
 import io.github.resilience4j.circuitbreaker.utils.CircuitBreakerUtil;
-import io.github.resilience4j.ratelimiter.RequestNotPermitted;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreaker;
-import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JCircuitBreakerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
-
-import java.net.ConnectException;
 
 /**
  * Service invoking name-service via REST and guarded by Hystrix.
@@ -52,7 +46,15 @@ public class NameService {
         return "Fallback";
     }
 
+    public String getFallbackName() {
+        return "Fallback";
+    }
+
+    public String getFallbackName(RuntimeException ex) { return "Fallback"; }
+
+    public String getFallbackName(HttpServerErrorException ex) { return "Fallback"; }
+
     CircuitBreakerState getState() throws Exception {
-        return CircuitBreakerState.fromCallPermitted(CircuitBreakerUtil.isCallPermitted( CircuitBreakerRegistry.ofDefaults().circuitBreaker("nameService")));
+        return CircuitBreakerState.fromCallPermitted(CircuitBreakerUtil.isCallPermitted(CircuitBreakerRegistry.ofDefaults().circuitBreaker("nameService")));
     }
 }
