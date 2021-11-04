@@ -47,7 +47,7 @@ public class CircuitBreakerTest {
 
     @Test
     public void testState() {
-         RestAssured.when().get("cb-state").then().assertThat().statusCode(200).body(equalTo(OK));
+         RestAssured.when().get("cb-state").then().assertThat().statusCode(200).body(equalTo(FAIL));
     }
 
 }
