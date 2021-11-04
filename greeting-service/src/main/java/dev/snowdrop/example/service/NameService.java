@@ -27,7 +27,7 @@ import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Service invoking name-service via REST and guarded by Hystrix.
+ * Service invoking name-service via REST and guarded by Resilience4j.
  */
 @Service
 public class NameService {
