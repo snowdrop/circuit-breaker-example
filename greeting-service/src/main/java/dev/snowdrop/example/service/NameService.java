@@ -18,8 +18,6 @@ package dev.snowdrop.example.service;
 
 import io.github.resilience4j.circuitbreaker.CircuitBreaker;
 import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpServerErrorException;
@@ -31,7 +29,6 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class NameService {
-    private static final Logger LOG = LoggerFactory.getLogger(NameService.class);
     private final String nameHost = System.getProperty("name.host", "http://spring-boot-circuit-breaker-name:8080");
     private static final String CIRCUIT_BREAKER_BACKEND = "nameService";
     private final RestTemplate restTemplate = new RestTemplate();
