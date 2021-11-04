@@ -1,6 +1,19 @@
+# Circuit Breaker Spring Boot Example
+
+* [Circuit Breaker Spring Boot Example](#circuit-breaker-spring-boot-example)
+    * [Introduction](#introduction)
+    * [Deploy on Openshift](#deploy-on-openshift)
+        * [Fabric8](#fabric8)
+    * [Test the service](#test-the-service)
+        * [Maven Test](#maven-test)
+        * [Manual Test](#manual-test)
+
+## Introduction
+
 [![CircleCI](https://circleci.com/gh/snowdrop/circuit-breaker-example.svg?style=shield)](https://circleci.com/gh/snowdrop/circuit-breaker-example)
 
 https://appdev.openshift.io/docs/spring-boot-runtime.html#mission-circuit-breaker-spring-boot
+
 
 ## Deploy on Openshift
 
@@ -34,6 +47,15 @@ mvn clean fabric8:deploy -Popenshift
 ```
 
 ## Test the service
+
+### Maven Test
+This service can be tested using the following Maven task.
+
+```shell
+$ mvn clean verify -Popenshift-it
+```
+
+### Manual Test
 
 ```shell
 $ oc get route
