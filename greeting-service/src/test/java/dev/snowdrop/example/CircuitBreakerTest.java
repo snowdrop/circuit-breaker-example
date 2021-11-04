@@ -32,9 +32,6 @@ import static org.hamcrest.core.IsEqual.equalTo;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class CircuitBreakerTest {
 
-    private static final String APPLICATION_JSON = "application/json";
-
-    private static final String OK = "{\"state\":\"closed\"}";
     private static final String FAIL = "{\"state\":\"open\"}";
 
     @Value("${local.server.port}")

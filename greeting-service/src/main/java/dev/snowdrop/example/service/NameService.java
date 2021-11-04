@@ -44,19 +44,13 @@ public class NameService {
         return restTemplate.getForObject(nameHost + "/api/name", String.class);
     }
 
-    public String getFallbackName(ResourceAccessException ex) {
-        return "Fallback";
-    }
-
-    public String getFallbackName() {
-        return "Fallback";
-    }
+    public String getFallbackName(ResourceAccessException ex) { return "Fallback"; }
 
     public String getFallbackName(RuntimeException ex) { return "Fallback"; }
 
     public String getFallbackName(HttpServerErrorException ex) { return "Fallback"; }
 
-    CircuitBreakerState getState() throws Exception {
+    CircuitBreakerState getState() {
         return (circuitBreakerRegistry.circuitBreaker(CIRCUIT_BREAKER_BACKEND).getState() == CircuitBreaker.State.CLOSED) ? CircuitBreakerState.CLOSED : CircuitBreakerState.OPEN;
     }
 }
