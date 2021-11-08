@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 Red Hat, Inc, and individual contributors.
+ * Copyright 2016-2021 Red Hat, Inc, and individual contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,16 @@
 
 package dev.snowdrop.example.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
+import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.socket.WebSocketHandler;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Greeting service controller.
@@ -27,12 +33,9 @@ import org.springframework.web.socket.WebSocketHandler;
 @RestController
 public class GreetingController {
 
-    private final NameService nameService;
+    @Autowired
+    private NameService nameService;
     private final CircuitBreakerHandler handler = new CircuitBreakerHandler();
-
-    public GreetingController(NameService nameService) {
-        this.nameService = nameService;
-    }
 
     @RequestMapping("/api/ping")
     public Greeting getPing() throws Exception {

@@ -29,6 +29,7 @@
   <name>Spring Boot - Circuit Breaker Example</name>
   <description>Spring Boot - Circuit Breaker Example</description>
   <properties>
+    <spring-cloud-circuit-breaker.version>2.0.2</spring-cloud-circuit-breaker.version>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
     <arquillian.version>1.4.0.Final</arquillian.version>
@@ -43,6 +44,8 @@
     </fabric8.generator.from>
     <fabric8.openshift.trimImageInContainerSpec>true</fabric8.openshift.trimImageInContainerSpec>
     <fabric8.skip.build.pom>true</fabric8.skip.build.pom>
+    <fabric8-maven-plugin.version>4.4.1</fabric8-maven-plugin.version>
+    <junit-vintaje.version>5.6.3</junit-vintaje.version>
   </properties>
   <licenses>
     <license>
@@ -94,8 +97,8 @@
       </dependency>
       <dependency>
         <groupId>org.springframework.cloud</groupId>
-        <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-        <version>${spring-cloud-netflix.version}</version>
+        <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+        <version>${spring-cloud-circuit-breaker.version}</version>
       </dependency>
       <dependency>
         <groupId>org.glassfish</groupId>
@@ -106,6 +109,12 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>${commons-logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+        <version>${junit-vintaje.version}</version>
+        <scope>test</scope>
       </dependency>
     </dependencies>
   </dependencyManagement>
@@ -136,7 +145,7 @@
           <plugin>
             <groupId>io.fabric8</groupId>
             <artifactId>fabric8-maven-plugin</artifactId>
-            <version>4.4.0</version>
+            <version>${fabric8-maven-plugin.version}</version>
             <executions>
               <execution>
                 <id>fmp</id>

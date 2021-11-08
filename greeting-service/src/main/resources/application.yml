@@ -1,8 +1,18 @@
-hystrix:
-  command:
+resilience4j.circuitbreaker:
+  configs:
     default:
-      circuitBreaker:
-        requestVolumeThreshold: 3
-      metrics:
-        healthSnapshot:
-          intervalInMilliseconds: 100
+      registerHealthIndicator: true
+      slidingWindowSize: 1
+      minimumNumberOfCalls: 1
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      slidingWindowType: TIME_BASED
+      failureRateThreshold: 50
+      waitDurationInOpenState: 500
+      recordExceptions:
+        - org.springframework.web.client.ResourceAccessException
+        - org.springframework.web.client.HttpServerErrorException
+        - java.lang.RuntimeException
+  backends:
+    nameService:
+      baseConfig: default

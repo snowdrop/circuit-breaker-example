@@ -1,5 +1,5 @@
 /*
- * Copyright 2016-2017 Red Hat, Inc, and individual contributors.
+ * Copyright 2016-2021 Red Hat, Inc, and individual contributors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,37 +16,41 @@
 
 package dev.snowdrop.example.service;
 
-import com.netflix.hystrix.HystrixCircuitBreaker;
-import com.netflix.hystrix.HystrixCommandKey;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
-import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerRegistry;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Service invoking name-service via REST and guarded by Hystrix.
+ * Service invoking name-service via REST and guarded by Resilience4j.
  */
 @Service
 public class NameService {
-
-    private static final HystrixCommandKey KEY = HystrixCommandKey.Factory.asKey("NameService");
-
     private final String nameHost = System.getProperty("name.host", "http://spring-boot-circuit-breaker-name:8080");
+    private static final String CIRCUIT_BREAKER_BACKEND = "nameService";
     private final RestTemplate restTemplate = new RestTemplate();
 
-    @HystrixCommand(commandKey = "NameService", fallbackMethod = "getFallbackName", commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
-    })
+    @Autowired
+    private CircuitBreakerRegistry circuitBreakerRegistry;
+
+    public NameService() {
+    }
+
+    @io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker(name = CIRCUIT_BREAKER_BACKEND, fallbackMethod = "getFallbackName")
     public String getName() {
         return restTemplate.getForObject(nameHost + "/api/name", String.class);
     }
 
-    private String getFallbackName() {
-        return "Fallback";
-    }
+    public String getFallbackName(ResourceAccessException ex) { return "Fallback"; }
 
-    CircuitBreakerState getState() throws Exception {
-        HystrixCircuitBreaker circuitBreaker = HystrixCircuitBreaker.Factory.getInstance(KEY);
-        return circuitBreaker != null && circuitBreaker.isOpen() ? CircuitBreakerState.OPEN : CircuitBreakerState.CLOSED;
+    public String getFallbackName(RuntimeException ex) { return "Fallback"; }
+
+    public String getFallbackName(HttpServerErrorException ex) { return "Fallback"; }
+
+    CircuitBreakerState getState() {
+        return (circuitBreakerRegistry.circuitBreaker(CIRCUIT_BREAKER_BACKEND).getState() == CircuitBreaker.State.CLOSED) ? CircuitBreakerState.CLOSED : CircuitBreakerState.OPEN;
     }
 }
