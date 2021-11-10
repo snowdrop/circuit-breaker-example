@@ -15,22 +15,21 @@
  */
 package dev.snowdrop.example;
 
-import io.restassured.RestAssured;
-import io.restassured.response.Response;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
 import static org.hamcrest.core.IsEqual.equalTo;
 
-/**
- *
- */
-@RunWith(SpringRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import io.restassured.RestAssured;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class GreetingTest {
 
     private static final String GREETING_FALLBACK = "{\"content\":\"Hello, Fallback!\"}";
@@ -39,7 +38,7 @@ public class GreetingTest {
     @Value("${local.server.port}")
     private int port;
 
-    @Before
+    @BeforeEach
     public void setup() {
         RestAssured.baseURI = String.format("http://localhost:%s/api", port);
     }

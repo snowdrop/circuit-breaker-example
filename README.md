@@ -3,7 +3,7 @@
 * [Circuit Breaker Spring Boot Example](#circuit-breaker-spring-boot-example)
     * [Introduction](#introduction)
     * [Deploy on Openshift](#deploy-on-openshift)
-        * [Fabric8](#fabric8)
+        * [Dekorate](#dekorate)
     * [Test the service](#test-the-service)
         * [Maven Test](#maven-test)
         * [Manual Test](#manual-test)
@@ -38,12 +38,12 @@ to build a new example application in Ruby. Or use kubectl to deploy a simple Ku
     kubectl create deployment hello-node --image=k8s.gcr.io/serve_hostname
 ```
 
-### Fabric8
+### Dekorate
 
-Deploy using `fabric8`.
+Deploy using `Dekorate`.
 
 ```shell
-mvn clean fabric8:deploy -Popenshift
+mvn clean install -Popenshift -Ddekorate.deploy=true
 ```
 
 ## Test the service
@@ -52,7 +52,7 @@ mvn clean fabric8:deploy -Popenshift
 This service can be tested using the following Maven task.
 
 ```shell
-$ mvn clean verify -Popenshift-it
+$ mvn clean verify
 ```
 
 ### Manual Test

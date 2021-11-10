@@ -15,36 +15,53 @@
  */
 package dev.snowdrop.example;
 
-import io.restassured.RestAssured;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
-
+import static org.hamcrest.Matchers.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 
-/**
- *
- */
-@RunWith(SpringRunner.class)
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import io.restassured.RestAssured;
+
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 public class CircuitBreakerTest {
 
-    private static final String FAIL = "{\"state\":\"open\"}";
+    private static final String STATE_OPEN = "{\"state\":\"open\"}";
+    private static final String STATE_CLOSED = "{\"state\":\"closed\"}";
 
     @Value("${local.server.port}")
     private int port;
 
-    @Before
+    @BeforeEach
     public void setup() {
         RestAssured.baseURI = String.format("http://localhost:%s/api", port);
     }
 
     @Test
     public void testState() {
-         RestAssured.when().get("cb-state").then().assertThat().statusCode(200).body(equalTo(FAIL));
+        // Circuit Breaker should be closed at first:
+        thenCircuitBreakerStateIs(STATE_CLOSED);
+
+        // Makes sure we call greeting service which will fail because name service is down, so the circuit breaker will become half open:
+        whenCallGreetingService();
+
+        // Now, the circuit breaker should be open:
+        thenCircuitBreakerStateIs(STATE_OPEN);
+    }
+
+    private void whenCallGreetingService() {
+        RestAssured.when().get("greeting").then().assertThat().statusCode(200).body("content", is("Hello, Fallback!"));
+    }
+
+    private void thenCircuitBreakerStateIs(String expectedState) {
+        RestAssured.when().get("cb-state").then().assertThat().statusCode(200).body(equalTo(expectedState));
     }
 
 }
