@@ -72,50 +72,12 @@
   <profiles>
     <profile>
       <id>openshift</id>
-      <build>
-        <plugins>
-          <plugin>
-            <groupId>io.fabric8</groupId>
-            <artifactId>fabric8-maven-plugin</artifactId>
-            <configuration>
-              <resources>
-                <labels>
-                  <all>
-                    <property>
-                      <name>app.kubernetes.io/part-of</name>
-                      <value>circuit-breaker-example</value>
-                    </property>
-                    <property>
-                      <name>app.kubernetes.io/name</name>
-                      <value>name-service</value>
-                    </property>
-                    <property>
-                      <name>app.kubernetes.io/component</name>
-                      <value>backend</value>
-                    </property>
-                    <property>
-                      <name>app.openshift.io/runtime</name>
-                      <value>rh-spring-boot</value>
-                    </property>
-                    <property>
-                      <name>app.openshift.io/runtime-version</name>
-                      <value>${spring-boot.version}</value>
-                    </property>
-                  </all>
-                </labels>
-                <annotations>
-                  <all>
-                    <property>
-                      <name>app.kubernetes.io/vcs-uri</name>
-                      <value>git@github.com:snowdrop/circuit-breaker-example.git</value>
-                    </property>
-                  </all>
-                </annotations>
-              </resources>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
+      <dependencies>
+        <dependency>
+          <groupId>io.dekorate</groupId>
+          <artifactId>openshift-spring-starter</artifactId>
+        </dependency>
+      </dependencies>
     </profile>
   </profiles>
 </project>

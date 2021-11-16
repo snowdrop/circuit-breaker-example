@@ -3,26 +3,30 @@ package dev.snowdrop.example;
 import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
 import javax.json.Json;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import io.dekorate.testing.annotation.Inject;
+import io.dekorate.testing.openshift.annotation.OpenshiftIntegrationTest;
+import io.fabric8.kubernetes.client.KubernetesClient;
+import io.fabric8.openshift.api.model.Route;
+import io.fabric8.openshift.client.OpenShiftClient;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.arquillian.cube.openshift.impl.enricher.AwaitRoute;
-import org.arquillian.cube.openshift.impl.enricher.RouteURL;
-import org.jboss.arquillian.junit.Arquillian;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * @author Radek Koubsky
  * @author Ales Justin
  */
-@RunWith(Arquillian.class)
+@OpenshiftIntegrationTest(deployEnabled = false, buildEnabled = false)
 public class OpenShiftIT {
     private static final String OK = "ok";
     private static final String FAIL = "fail";
@@ -36,32 +40,29 @@ public class OpenShiftIT {
     // See also circuitBreaker.requestVolumeThreshold
     private static final long REQUEST_THRESHOLD = 3;
 
-    @AwaitRoute(path = "/actuator/health")
-    @RouteURL("${app.name}")
-    private URL nameBaseUri;
+    @Inject
+    KubernetesClient kubernetesClient;
 
-    @AwaitRoute(path = "/actuator/health")
-    @RouteURL("${app.greeting}")
+    private URL nameBaseUri;
     private URL greetingBaseUri;
 
-    @Before
-    public void setup() {
+    @BeforeEach
+    public void setup() throws MalformedURLException {
+        nameBaseUri = getBaseUrlByRouteName("spring-boot-circuit-breaker-name");
+        greetingBaseUri = getBaseUrlByRouteName("spring-boot-circuit-breaker-greeting");
+
         // Circuit breaker is sometimes unstable during init, so wait until it gets stably closed
-        for (int i=0; i < 3 ; i++) {
-            await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES).until(() -> {
-                try {
-                    Response response = greetingResponse();
-                    Response circuitBreakerState = circuitBreakerResponse();
-                    return response.asString().contains(HELLO_OK) && circuitBreakerState.asString().contains(CLOSED);
-                } catch (Exception ignored) {
-                    return false;
-                }
-            });
+        for (int i = 0; i < 3; i++) {
+            await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES)
+                    .untilAsserted(() -> {
+                        assertTrue(greetingResponse().then().log().all().extract().asString().contains(HELLO_OK));
+                        assertTrue(circuitBreakerResponse().then().log().all().extract().asString().contains(CLOSED));
+                    });
         }
     }
 
     @Test
-    public void testCircuitBreaker() throws InterruptedException {
+    public void testCircuitBreaker() {
         assertCircuitBreaker(CLOSED);
         assertGreeting(HELLO_OK);
         changeNameServiceState(FAIL);
@@ -112,5 +113,13 @@ public class OpenShiftIT {
         Response response = RestAssured.given().header("Content-type", "application/json")
                 .body(Json.createObjectBuilder().add("state", state).build().toString()).put(nameBaseUri + "api/state");
         response.then().assertThat().statusCode(200).body("state", equalTo(state));
+    }
+
+    private URL getBaseUrlByRouteName(String routeName) throws MalformedURLException {
+        // TODO: In Dekorate 1.7, we can inject Routes directly, so we won't need to do this:
+        Route route = kubernetesClient.adapt(OpenShiftClient.class).routes().withName(routeName).get();
+        String protocol = route.getSpec().getTls() == null ? "http" : "https";
+        int port = "http".equals(protocol) ? 80 : 443;
+        return new URL(protocol, route.getSpec().getHost(), port, "/");
     }
 }
