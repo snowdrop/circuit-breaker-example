@@ -2,48 +2,58 @@
 
 * [Circuit Breaker Spring Boot Example](#circuit-breaker-spring-boot-example)
     * [Introduction](#introduction)
-    * [Deploy on Openshift](#deploy-on-openshift)
-        * [Dekorate](#dekorate)
+    * [Deploying application on OpenShift using Dekorate](#deploying-application-on-openshift-using-dekorate)
+    * [Running Tests on OpenShift using Dekorate](#running-tests-on-openshift-using-dekorate)
+    * [Running Tests on OpenShift using S2i from Source](#running-tests-on-openshift-using-s2i-from-source)
     * [Test the service](#test-the-service)
         * [Maven Test](#maven-test)
         * [Manual Test](#manual-test)
 
 ## Introduction
 
-[![CircleCI](https://circleci.com/gh/snowdrop/circuit-breaker-example.svg?style=shield)](https://circleci.com/gh/snowdrop/circuit-breaker-example)
-
 https://appdev.openshift.io/docs/spring-boot-runtime.html#mission-circuit-breaker-spring-boot
 
+## Deploying application on OpenShift using Dekorate
 
-## Deploy on Openshift
-
-Login on openshift.
-
-```shell
-$ oc login --token=sha256~xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx --server=https://my.openshift.instance:30111
+- For the Greeting Service:
+```
+./mvnw clean verify -pl greeting-service -Popenshift -Ddekorate.deploy=true
 ```
 
-Create the circuit-breaker project on OpenShift.
-
-```shell
-$ oc new-project circuit-breaker-example
-Now using project "circuit-breaker-example" on server "https://my.openshift.instance:30111".
-
-You can add applications to this project with the 'new-app' command. For example, try:
-
-    oc new-app rails-postgresql-example
-
-to build a new example application in Ruby. Or use kubectl to deploy a simple Kubernetes application:
-
-    kubectl create deployment hello-node --image=k8s.gcr.io/serve_hostname
+- For the Name Service:
+```
+./mvnw clean verify -pl name-service -Popenshift -Ddekorate.deploy=true
 ```
 
-### Dekorate
+## Running Tests on OpenShift using Dekorate
 
-Deploy using `Dekorate`.
+```
+sh run_tests_with_dekorate.sh
+```
 
-```shell
-mvn clean install -Popenshift -Ddekorate.deploy=true
+## Running Tests on OpenShift using S2i from Source
+
+```
+# deploy Greeting Service
+oc create -f greeting-service/.openshiftio/application.yaml
+oc new-app --template=spring-boot-circuit-breaker-greeting -p SOURCE_REPOSITORY_URL="https://github.com/snowdrop/circuit-breaker-example" -p SOURCE_REPOSITORY_REF=sb-2.4.x -p SOURCE_REPOSITORY_DIR=greeting-service
+
+sleep 30 # needed in order to bypass the 'Pending' state
+
+# wait for the app to stand up
+timeout 300s bash -c 'while [[ $(oc get pod -o json | jq  ".items[] | select(.metadata.name | contains(\"build\"))  | .status  " | jq -rs "sort_by(.startTme) | last | .phase") == "Running" ]]; do sleep 20; done; echo ""'
+
+# deploy Name Service
+oc create -f name-service/.openshiftio/application.yaml
+oc new-app --template=spring-boot-circuit-breaker-name -p SOURCE_REPOSITORY_URL="https://github.com/snowdrop/circuit-breaker-example" -p SOURCE_REPOSITORY_REF=sb-2.4.x -p SOURCE_REPOSITORY_DIR=name-service
+
+sleep 30 # needed in order to bypass the 'Pending' state
+
+# wait for the app to stand up
+timeout 300s bash -c 'while [[ $(oc get pod -o json | jq  ".items[] | select(.metadata.name | contains(\"build\"))  | .status  " | jq -rs "sort_by(.startTme) | last | .phase") == "Running" ]]; do sleep 20; done; echo ""'
+
+# launch the tests without deploying the application
+sh run_tests_with_s2i.sh
 ```
 
 ## Test the service
