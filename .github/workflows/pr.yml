@@ -49,22 +49,11 @@ jobs:
           sh run_tests_with_dekorate.sh
       - name: Delete Project using Dekorate
         run: oc delete project dekorate
+      - name: Clean folder
+        run: ./mvnw -s .github/mvn-settings.xml clean
       - name: Build Project using S2i
         run: |
           oc new-project s2i
-
-          # deploy applications
-          declare -Ar moduleMapping=( ["greeting-service"]="spring-boot-circuit-breaker-greeting" ["name-service"]="spring-boot-circuit-breaker-name" )
-          for module in "${!moduleMapping[@]}"
-          do
-            oc create -f ${module}/.openshiftio/application.yaml
-            oc new-app --template=${moduleMapping[$module]} -p SOURCE_REPOSITORY_URL="${{ github.event.pull_request.head.repo.owner.html_url }}/${{ github.event.pull_request.head.repo.name }}" -p SOURCE_REPOSITORY_REF=${{ github.head_ref }} -p SOURCE_REPOSITORY_DIR=${module}
-            sleep 30 # needed in order to bypass the 'Pending' state
-            # wait for the app to stand up
-            timeout 300s bash -c 'while [[ $(oc get pod -o json | jq  ".items[] | select(.metadata.name | contains(\"build\"))  | .status  " | jq -rs "sort_by(.startTme) | last | .phase") == "Running" ]]; do sleep 20; done; echo ""'
-          done
-
-          # launch the tests without deploying the application
-          sh run_tests_with_s2i.sh
+          ./run_tests_with_s2i.sh "${{ github.event.pull_request.head.repo.owner.html_url }}/${{ github.event.pull_request.head.repo.name }}" ${{ github.head_ref }}
       - name: Delete Project using S2i
         run: oc delete project s2i

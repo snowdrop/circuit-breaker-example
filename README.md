@@ -34,26 +34,7 @@ sh run_tests_with_dekorate.sh
 ## Running Tests on OpenShift using S2i from Source
 
 ```
-# deploy Greeting Service
-oc create -f greeting-service/.openshiftio/application.yaml
-oc new-app --template=spring-boot-circuit-breaker-greeting -p SOURCE_REPOSITORY_URL="https://github.com/snowdrop/circuit-breaker-example" -p SOURCE_REPOSITORY_REF=sb-2.4.x -p SOURCE_REPOSITORY_DIR=greeting-service
-
-sleep 30 # needed in order to bypass the 'Pending' state
-
-# wait for the app to stand up
-timeout 300s bash -c 'while [[ $(oc get pod -o json | jq  ".items[] | select(.metadata.name | contains(\"build\"))  | .status  " | jq -rs "sort_by(.startTme) | last | .phase") == "Running" ]]; do sleep 20; done; echo ""'
-
-# deploy Name Service
-oc create -f name-service/.openshiftio/application.yaml
-oc new-app --template=spring-boot-circuit-breaker-name -p SOURCE_REPOSITORY_URL="https://github.com/snowdrop/circuit-breaker-example" -p SOURCE_REPOSITORY_REF=sb-2.4.x -p SOURCE_REPOSITORY_DIR=name-service
-
-sleep 30 # needed in order to bypass the 'Pending' state
-
-# wait for the app to stand up
-timeout 300s bash -c 'while [[ $(oc get pod -o json | jq  ".items[] | select(.metadata.name | contains(\"build\"))  | .status  " | jq -rs "sort_by(.startTme) | last | .phase") == "Running" ]]; do sleep 20; done; echo ""'
-
-# launch the tests without deploying the application
-sh run_tests_with_s2i.sh
+./run_tests_with_s2i.sh "https://github.com/snowdrop/circuit-breaker-example" sb-2.4.x
 ```
 
 ## Test the service
