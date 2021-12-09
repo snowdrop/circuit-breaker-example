@@ -1,5 +1,7 @@
 # Circuit Breaker Spring Boot Example
 
+## Table of Contents
+
 * [Circuit Breaker Spring Boot Example](#circuit-breaker-spring-boot-example)
     * [Introduction](#introduction)
     * [Deploying application on OpenShift using Dekorate](#deploying-application-on-openshift-using-dekorate)
@@ -34,7 +36,13 @@ sh run_tests_with_dekorate.sh
 ## Running Tests on OpenShift using S2i from Source
 
 ```
-./run_tests_with_s2i.sh "https://github.com/snowdrop/circuit-breaker-example" sb-2.4.x
+./run_tests_with_s2i.sh
+```
+
+This script can take 2 parameters referring to the repository and the branch to use to source the images from.
+
+```bash
+./run_tests_with_s2i.sh "https://github.com/snowdrop/circuit-breaker-example" branch-to-test
 ```
 
 ## Test the service
