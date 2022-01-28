@@ -254,6 +254,7 @@ objects:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
     name: spring-boot-circuit-breaker-name
   spec:
+    path: /
     port:
       targetPort: 8080
     to:

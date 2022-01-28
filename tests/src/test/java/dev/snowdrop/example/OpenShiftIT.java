@@ -5,7 +5,6 @@ import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 
@@ -15,10 +14,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import io.dekorate.testing.annotation.Inject;
+import io.dekorate.testing.annotation.Named;
 import io.dekorate.testing.openshift.annotation.OpenshiftIntegrationTest;
-import io.fabric8.kubernetes.client.KubernetesClient;
-import io.fabric8.openshift.api.model.Route;
-import io.fabric8.openshift.client.OpenShiftClient;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
@@ -41,16 +38,18 @@ public class OpenShiftIT {
     private static final long REQUEST_THRESHOLD = 3;
 
     @Inject
-    KubernetesClient kubernetesClient;
+    URL kubernetesClient;
 
+    @Inject
+    @Named("spring-boot-circuit-breaker-name")
     private URL nameBaseUri;
+
+    @Inject
+    @Named("spring-boot-circuit-breaker-greeting")
     private URL greetingBaseUri;
 
     @BeforeEach
-    public void setup() throws MalformedURLException {
-        nameBaseUri = getBaseUrlByRouteName("spring-boot-circuit-breaker-name");
-        greetingBaseUri = getBaseUrlByRouteName("spring-boot-circuit-breaker-greeting");
-
+    public void setup() {
         // Circuit breaker is sometimes unstable during init, so wait until it gets stably closed
         for (int i = 0; i < 3; i++) {
             await().pollInterval(1, TimeUnit.SECONDS).atMost(5, TimeUnit.MINUTES)
@@ -74,13 +73,13 @@ public class OpenShiftIT {
         await().atMost(10, TimeUnit.SECONDS).until(() -> testCircuitBreakerState(OPEN));
         changeNameServiceState(OK);
         // See also circuitBreaker.sleepWindowInMilliseconds
-        await().atMost(15, TimeUnit.SECONDS).pollDelay(SLEEP_WINDOW, TimeUnit.MILLISECONDS).until(() -> testGreeting(HELLO_OK));
+        await().atMost(30, TimeUnit.SECONDS).pollDelay(SLEEP_WINDOW, TimeUnit.MILLISECONDS).until(() -> testGreeting(HELLO_OK));
         // The health counts should be reset
         assertCircuitBreaker(CLOSED);
     }
 
     private Response greetingResponse() {
-        return RestAssured.when().get(greetingBaseUri + "api/greeting");
+        return RestAssured.when().get(greetingBaseUri.toString() + "api/greeting");
     }
 
     private void assertGreeting(String expected) {
@@ -95,7 +94,7 @@ public class OpenShiftIT {
     }
 
     private Response circuitBreakerResponse() {
-        return RestAssured.when().get(greetingBaseUri + "api/cb-state");
+        return RestAssured.when().get(greetingBaseUri.toString() + "api/cb-state");
     }
 
     private void assertCircuitBreaker(String expectedState) {
@@ -111,15 +110,7 @@ public class OpenShiftIT {
 
     private void changeNameServiceState(String state) {
         Response response = RestAssured.given().header("Content-type", "application/json")
-                .body(Json.createObjectBuilder().add("state", state).build().toString()).put(nameBaseUri + "api/state");
+                .body(Json.createObjectBuilder().add("state", state).build().toString()).put(nameBaseUri.toString() + "api/state");
         response.then().assertThat().statusCode(200).body("state", equalTo(state));
-    }
-
-    private URL getBaseUrlByRouteName(String routeName) throws MalformedURLException {
-        // TODO: In Dekorate 1.7, we can inject Routes directly, so we won't need to do this:
-        Route route = kubernetesClient.adapt(OpenShiftClient.class).routes().withName(routeName).get();
-        String protocol = route.getSpec().getTls() == null ? "http" : "https";
-        int port = "http".equals(protocol) ? 80 : 443;
-        return new URL(protocol, route.getSpec().getHost(), port, "/");
     }
 }
