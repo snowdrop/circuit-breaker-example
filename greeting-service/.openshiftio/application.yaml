@@ -263,6 +263,7 @@ objects:
       app.kubernetes.io/connects-to: name-service
     name: spring-boot-circuit-breaker-greeting
   spec:
+    path: /
     port:
       targetPort: 8080
     to:
