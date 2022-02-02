@@ -5,8 +5,10 @@
 * [Circuit Breaker Spring Boot Example](#circuit-breaker-spring-boot-example)
     * [Introduction](#introduction)
     * [Deploying application on OpenShift using Dekorate](#deploying-application-on-openshift-using-dekorate)
+    * [Deploying application on OpenShift using Helm](#deploying-application-on-openshift-using-helm)
     * [Running Tests on OpenShift using Dekorate](#running-tests-on-openshift-using-dekorate)
     * [Running Tests on OpenShift using S2i from Source](#running-tests-on-openshift-using-s2i-from-source)
+    * [Running Tests on OpenShift using Helm](#running-tests-on-openshift-using-helm)
     * [Test the service](#test-the-service)
         * [Maven Test](#maven-test)
         * [Manual Test](#manual-test)
@@ -27,6 +29,24 @@ https://appdev.openshift.io/docs/spring-boot-runtime.html#mission-circuit-breake
 ./mvnw clean verify -pl name-service -Popenshift -Ddekorate.deploy=true
 ```
 
+## Deploying application on OpenShift using Helm
+
+First, make sure you have installed [the Helm command line](https://helm.sh/docs/intro/install/) and connected/logged to a kubernetes cluster.
+
+Then, you need to install the example by doing:
+
+```
+helm install circuit-breaker ./helm --set name-service.s2i.source.repo=https://github.com/snowdrop/circuit-breaker-example --set name-service.s2i.source.ref=<branch-to-use> --set greeting-service.s2i.source.repo=https://github.com/snowdrop/circuit-breaker-example --set greeting-service.s2i.source.ref=<branch-to-use>
+```
+
+**note**: Replace `<branch-to-use>` with one branch from `https://github.com/snowdrop/circuit-breaker-example/branches/all`.
+
+And to uninstall the chart, execute:
+
+```
+helm uninstall circuit-breaker
+```
+
 ## Running Tests on OpenShift using Dekorate
 
 ```
@@ -43,6 +63,18 @@ This script can take 2 parameters referring to the repository and the branch to 
 
 ```bash
 ./run_tests_with_s2i.sh "https://github.com/snowdrop/circuit-breaker-example" branch-to-test
+```
+
+## Running Tests on OpenShift using Helm
+
+```
+./run_tests_with_helm.sh
+```
+
+This script can take 2 parameters referring to the repository and the branch to use to source the images from.
+
+```bash
+./run_tests_with_helm.sh "https://github.com/snowdrop/circuit-breaker-example" branch-to-test
 ```
 
 ## Test the service
