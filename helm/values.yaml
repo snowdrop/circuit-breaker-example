@@ -1,0 +1,21 @@
+name-service:
+  name: spring-boot-circuit-breaker-name
+  version: 2.5.8-1-SNAPSHOT
+  s2i:
+    env:
+      - name: MAVEN_ARGS_APPEND
+        value: "-pl name-service"
+      - name: ARTIFACT_DIR
+        value: "name-service/target"
+greeting-service:
+  name: spring-boot-circuit-breaker-greeting
+  version: 2.5.8-1-SNAPSHOT
+  s2i:
+    env:
+      - name: MAVEN_ARGS_APPEND
+        value: "-pl greeting-service"
+      - name: ARTIFACT_DIR
+        value: "greeting-service/target"
+  env:
+    - name: name.host
+      value: http://spring-boot-circuit-breaker-name:8080
