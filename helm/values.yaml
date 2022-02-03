@@ -2,6 +2,10 @@ name-service:
   name: spring-boot-circuit-breaker-name
   version: 2.5.8-1-SNAPSHOT
   s2i:
+    # Default s2i source repository
+    source:
+      repo: https://github.com/snowdrop/circuit-breaker-example
+      ref: sb-2.5.x
     env:
       - name: MAVEN_ARGS_APPEND
         value: "-pl name-service"
@@ -11,6 +15,10 @@ greeting-service:
   name: spring-boot-circuit-breaker-greeting
   version: 2.5.8-1-SNAPSHOT
   s2i:
+    # Default s2i source repository
+    source:
+      repo: https://github.com/snowdrop/circuit-breaker-example
+      ref: sb-2.5.x
     env:
       - name: MAVEN_ARGS_APPEND
         value: "-pl greeting-service"
