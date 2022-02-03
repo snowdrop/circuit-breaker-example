@@ -1,5 +1,5 @@
 apiVersion: v2
-name: circuit-breaker
+name: spring-boot-example-circuit-breaker
 version: 0.0.1-SNAPSHOT
 description: A Helm chart to build and deploy Spring Boot applications with Cache
 keywords:
