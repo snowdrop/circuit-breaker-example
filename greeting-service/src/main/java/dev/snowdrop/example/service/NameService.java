@@ -38,7 +38,7 @@ public class NameService {
     @Autowired
     private CircuitBreakerRegistry circuitBreakerRegistry;
 
-    @Value("${name.host:http://spring-boot-circuit-breaker-name:80}")
+    @Value("${name.host:http://spring-boot-circuit-breaker-name:8080}")
     private String nameHost;
 
     public NameService() {
