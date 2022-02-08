@@ -1,9 +1,9 @@
 dependencies:
 - name: spring-boot-example-app
-  repository: http://snowdrop.github.io/helm
-  version: 0.0.3
+  repository: http://localhost:8080
+  version: 0.0.4
 - name: spring-boot-example-app
-  repository: http://snowdrop.github.io/helm
-  version: 0.0.3
-digest: sha256:98c5ec3240851e09e5a003744cd2abd671e08bf1a30fdf603a0ac3ff856707d4
-generated: "2022-02-02T09:57:36.524763302+01:00"
+  repository: http://localhost:8080
+  version: 0.0.4
+digest: sha256:06c0f8c009ddf8f601ab43dd9c956e5a25e642f9a04211f54bc801ce41629c92
+generated: "2022-02-08T14:34:54.264266543+01:00"

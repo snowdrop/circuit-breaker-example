@@ -1,11 +1,9 @@
 name-service:
   name: spring-boot-circuit-breaker-name
   version: 2.5.8-1-SNAPSHOT
+  docker:
+    image: quay.io/snowdrop/spring-boot-cb-name-example:2.5.8
   s2i:
-    # Default s2i source repository
-    source:
-      repo: https://github.com/snowdrop/circuit-breaker-example
-      ref: sb-2.5.x
     env:
       - name: MAVEN_ARGS_APPEND
         value: "-pl name-service"
@@ -14,16 +12,14 @@ name-service:
 greeting-service:
   name: spring-boot-circuit-breaker-greeting
   version: 2.5.8-1-SNAPSHOT
+  docker:
+    image: quay.io/snowdrop/spring-boot-cb-greeting-example:2.5.8
+  env:
+  - name: name.host
+    value: http://spring-boot-circuit-breaker-name:8080
   s2i:
-    # Default s2i source repository
-    source:
-      repo: https://github.com/snowdrop/circuit-breaker-example
-      ref: sb-2.5.x
     env:
       - name: MAVEN_ARGS_APPEND
         value: "-pl greeting-service"
       - name: ARTIFACT_DIR
         value: "greeting-service/target"
-  env:
-    - name: name.host
-      value: http://spring-boot-circuit-breaker-name:8080

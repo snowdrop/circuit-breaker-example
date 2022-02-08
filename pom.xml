@@ -50,6 +50,11 @@
   </licenses>
   <repositories>
     <repository>
+      <id>maven-central</id>
+      <name>Public Maven Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2/</url>
+    </repository>
+    <repository>
       <id>redhat-ga</id>
       <name>Red Hat GA Repository</name>
       <url>https://maven.repository.redhat.com/ga/</url>
@@ -61,6 +66,11 @@
     </repository>
   </repositories>
   <pluginRepositories>
+    <pluginRepository>
+      <id>maven-central</id>
+      <name>Public Maven Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2/</url>
+    </pluginRepository>
     <pluginRepository>
       <id>redhat-ga</id>
       <name>Red Hat GA Repository</name>

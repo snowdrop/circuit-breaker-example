@@ -79,5 +79,14 @@
         </dependency>
       </dependencies>
     </profile>
+    <profile>
+      <id>kubernetes</id>
+      <dependencies>
+        <dependency>
+          <groupId>io.dekorate</groupId>
+          <artifactId>kubernetes-spring-starter</artifactId>
+        </dependency>
+      </dependencies>
+    </profile>
   </profiles>
 </project>

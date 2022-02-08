@@ -9,9 +9,9 @@ icon: https://avatars.githubusercontent.com/u/558276?s=400&u=19efc68c74844b2e092
 dependencies:
   - alias: name-service
     name: spring-boot-example-app
-    version: 0.0.3
+    version: 0.0.4
     repository: http://snowdrop.github.io/helm
   - alias: greeting-service
     name: spring-boot-example-app
-    version: 0.0.3
+    version: 0.0.4
     repository: http://snowdrop.github.io/helm
