@@ -7,7 +7,7 @@ metadata:
     app.kubernetes.io/name: greeting-service
     app.kubernetes.io/component: frontend
     app.openshift.io/runtime: rh-spring-boot
-    app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
+    app.openshift.io/runtime-version: "2.5.10"
   annotations:
     iconClass: icon-spring
     tags: spring-boot, circuit breaker, java, microservice
@@ -64,7 +64,7 @@ objects:
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
       app.openshift.io/runtime: rh-spring-boot
-      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime-version: "2.5.10"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -88,7 +88,7 @@ objects:
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
       app.openshift.io/runtime: rh-spring-boot
-      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime-version: "2.5.10"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -96,7 +96,7 @@ objects:
     output:
       to:
         kind: ImageStreamTag
-        name: spring-boot-circuit-breaker-greeting:BOOSTER_VERSION
+        name: spring-boot-circuit-breaker-greeting:2.5.10-2-redhat
     postCommit: {}
     resources: {}
     source:
@@ -135,13 +135,13 @@ objects:
     labels:
       app: spring-boot-circuit-breaker-greeting
       provider: snowdrop
-      version: "BOOSTER_VERSION"
+      version: "2.5.10-2-redhat"
       group: dev.snowdrop.example
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
       app.openshift.io/runtime: rh-spring-boot
-      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime-version: "2.5.10"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -162,13 +162,13 @@ objects:
     labels:
       app: spring-boot-circuit-breaker-greeting
       provider: snowdrop
-      version: "BOOSTER_VERSION"
+      version: "2.5.10-2-redhat"
       group: dev.snowdrop.example
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
       app.openshift.io/runtime: rh-spring-boot
-      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime-version: "2.5.10"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
@@ -189,13 +189,13 @@ objects:
         labels:
           app: spring-boot-circuit-breaker-greeting
           provider: snowdrop
-          version: "BOOSTER_VERSION"
+          version: "2.5.10-2-redhat"
           group: dev.snowdrop.example
           app.kubernetes.io/part-of: circuit-breaker-example
           app.kubernetes.io/name: greeting-service
           app.kubernetes.io/component: frontend
           app.openshift.io/runtime: rh-spring-boot
-          app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
+          app.openshift.io/runtime-version: "2.5.10"
         annotations:
           app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
           app.kubernetes.io/connects-to: name-service
@@ -208,7 +208,7 @@ objects:
                 fieldPath: metadata.namespace
           - name: name.host
             value: http://spring-boot-circuit-breaker-name:8080
-          image: spring-boot-circuit-breaker-greeting:BOOSTER_VERSION
+          image: spring-boot-circuit-breaker-greeting:2.5.10-2-redhat
           imagePullPolicy: IfNotPresent
           livenessProbe:
             httpGet:
@@ -243,7 +243,7 @@ objects:
         - spring-boot
         from:
           kind: ImageStreamTag
-          name: spring-boot-circuit-breaker-greeting:BOOSTER_VERSION
+          name: spring-boot-circuit-breaker-greeting:2.5.10-2-redhat
       type: ImageChange
 - apiVersion: v1
   kind: Route
@@ -251,13 +251,13 @@ objects:
     labels:
       app: spring-boot-circuit-breaker-greeting
       provider: snowdrop
-      version: "BOOSTER_VERSION"
+      version: "2.5.10-2-redhat"
       group: dev.snowdrop.example
       app.kubernetes.io/part-of: circuit-breaker-example
       app.kubernetes.io/name: greeting-service
       app.kubernetes.io/component: frontend
       app.openshift.io/runtime: rh-spring-boot
-      app.openshift.io/runtime-version: "SPRING_BOOT_VERSION"
+      app.openshift.io/runtime-version: "2.5.10"
     annotations:
       app.kubernetes.io/vcs-uri: git@github.com:snowdrop/circuit-breaker-example.git
       app.kubernetes.io/connects-to: name-service
