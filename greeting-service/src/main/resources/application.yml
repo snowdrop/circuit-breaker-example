@@ -11,7 +11,7 @@ resilience4j.circuitbreaker:
       automaticTransitionFromOpenToHalfOpenEnabled: true
       slidingWindowType: TIME_BASED
       failureRateThreshold: 50
-      waitDurationInOpenState: 500
+      waitDurationInOpenState: 5000
       recordExceptions:
         - org.springframework.web.client.ResourceAccessException
         - org.springframework.web.client.HttpServerErrorException
