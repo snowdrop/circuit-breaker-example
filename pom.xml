@@ -97,11 +97,6 @@
         <scope>import</scope>
       </dependency>
       <dependency>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-          <version>${commons-logging.version}</version>
-      </dependency>
-      <dependency>
         <groupId>org.springframework.cloud</groupId>
         <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
         <version>${spring-cloud-circuit-breaker.version}</version>
