@@ -4,13 +4,13 @@ import static org.awaitility.Awaitility.await;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.core.IsEqual.equalTo;
 
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
-
-import javax.json.Json;
 
 import org.junit.jupiter.api.Test;
 
 import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
 import io.restassured.response.Response;
 
 /**
@@ -83,8 +83,8 @@ public abstract class AbstractTest {
     }
 
     private void changeNameServiceState(String state) {
-        Response response = RestAssured.given().header("Content-type", "application/json")
-                .body(Json.createObjectBuilder().add("state", state).build().toString()).put(getNameBaseUri() + "api/state");
+        Response response = RestAssured.given().contentType(ContentType.JSON)
+                .body(Collections.singletonMap("state", state)).put(getNameBaseUri() + "api/state");
         response.then().assertThat().statusCode(200).body("state", equalTo(state));
     }
 }

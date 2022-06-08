@@ -40,11 +40,6 @@
       <artifactId>rest-assured</artifactId>
       <scope>test</scope>
     </dependency>
-    <dependency>
-      <groupId>org.glassfish</groupId>
-      <artifactId>javax.json</artifactId>
-      <scope>test</scope>
-    </dependency>
     <!--
     We need this because Apache httpclient depends on it
     but the import of the Spring Boot BOM excludes it
