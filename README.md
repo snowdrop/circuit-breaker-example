@@ -1,9 +1,11 @@
 # Circuit Breaker Spring Boot Example
 
+https://appdev.openshift.io/docs/spring-boot-runtime.html#mission-circuit-breaker-spring-boot
+
 ## Table of Contents
 
 * [Circuit Breaker Spring Boot Example](#circuit-breaker-spring-boot-example)
-    * [Introduction](#introduction)
+    * [Prerequisites](#prerequisites)
     * [Deploying application on OpenShift using Dekorate](#deploying-application-on-openshift-using-dekorate)
     * [Deploying application on OpenShift using Helm](#deploying-application-on-openshift-using-helm)
     * [Deploying application on Kubernetes using Helm](#deploying-application-on-kubernetes-using-helm)
@@ -15,9 +17,9 @@
         * [Maven Test](#maven-test)
         * [Manual Test](#manual-test)
 
-## Introduction
+## Prerequisites
 
-https://appdev.openshift.io/docs/spring-boot-runtime.html#mission-circuit-breaker-spring-boot
+- JDK 11+ installed with JAVA_HOME configured appropriately
 
 ## Deploying application on OpenShift using Dekorate
 
