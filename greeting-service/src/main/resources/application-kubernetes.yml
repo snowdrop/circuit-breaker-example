@@ -18,3 +18,9 @@ resilience4j.circuitbreaker:
   backends:
     nameService:
       baseConfig: default
+# Dekorate
+dekorate:
+  kubernetes:
+    env-vars:
+      - name: NAME_HOST
+        value: http://spring-boot-circuit-breaker-name:80

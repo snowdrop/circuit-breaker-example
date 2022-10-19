@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - sb-2.5.x
+      - sb-2.7.x
 jobs:
   push:
     name: Push Images to Quay.io
@@ -28,13 +28,13 @@ jobs:
         run: |
           CONTAINER_REGISTRY=quay.io/snowdrop
           ## Cute name service:
-          NAME_IMAGE=spring-boot-cb-name-example:2.5.8
+          NAME_IMAGE=spring-boot-cb-name-example:2.7
           docker build ./name-service -t $NAME_IMAGE
           docker tag $NAME_IMAGE $CONTAINER_REGISTRY/$NAME_IMAGE
           docker push $CONTAINER_REGISTRY/$NAME_IMAGE
 
           ## Greeting service:
-          GREETING_IMAGE=spring-boot-cb-greeting-example:2.5.8
+          GREETING_IMAGE=spring-boot-cb-greeting-example:2.7
           docker build ./greeting-service -t $GREETING_IMAGE
           docker tag $GREETING_IMAGE $CONTAINER_REGISTRY/$GREETING_IMAGE
           docker push $CONTAINER_REGISTRY/$GREETING_IMAGE
