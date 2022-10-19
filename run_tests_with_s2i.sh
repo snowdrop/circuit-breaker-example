@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 SOURCE_REPOSITORY_URL=${1:-https://github.com/snowdrop/circuit-breaker-example}
-SOURCE_REPOSITORY_REF=${2:-sb-2.5.x}
+SOURCE_REPOSITORY_REF=${2:-sb-2.7.x}
 
 source scripts/waitFor.sh
 
@@ -16,5 +16,5 @@ do
   fi
 done
 
-# Run OpenShift Tests
+# Run Tests
 ./mvnw -s .github/mvn-settings.xml clean verify -Popenshift,openshift-it

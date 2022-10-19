@@ -18,3 +18,12 @@ resilience4j.circuitbreaker:
   backends:
     nameService:
       baseConfig: default
+# Dekorate
+dekorate:
+  openshift:
+    expose: true
+    env-vars:
+      - name: name.host
+        value: http://spring-boot-circuit-breaker-name:80
+  s2i:
+    builder-image: registry.access.redhat.com/ubi8/openjdk-11:1.14

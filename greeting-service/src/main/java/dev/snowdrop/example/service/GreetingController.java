@@ -33,9 +33,10 @@ import java.util.Map;
 @RestController
 public class GreetingController {
 
+    private final CircuitBreakerHandler handler = new CircuitBreakerHandler();
+
     @Autowired
     private NameService nameService;
-    private final CircuitBreakerHandler handler = new CircuitBreakerHandler();
 
     @RequestMapping("/api/ping")
     public Greeting getPing() throws Exception {
